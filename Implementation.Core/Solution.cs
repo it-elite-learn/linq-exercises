@@ -69,6 +69,7 @@ public static class Solution
 
     /// <summary>
     /// Decodes the <paramref name="input"/> by extracting the A[N] into N times the character A.
+    /// The values of A[N] must be separated by a ";".
     /// </summary>
     /// <param name="input">The encoded input</param>
     /// <returns>The decoded <paramref name="input"/></returns>
@@ -76,7 +77,9 @@ public static class Solution
     static string Decode(this string input) => input.Split(";").Select(c => c switch
     {
         [var key] => key.ToString(),
-        [var key, .. var count] => new string(key, Math.Max(int.Parse(count), 1)),
+
+        [var key, .. var count] => new string(key, Math.Max(int.Parse(count), 0)),
+
         _ => throw new InvalidDataException("Unexpected input")
     }).JoinChunks();
 
